@@ -18,9 +18,19 @@ const makeTweet = async (data) => {
 
   const expectedTime = moment(data.expectedServiceTimeUTC);
 
+  const timeRel = moment(expectedTime).calendar();
+
   const timeDiff = expectedTime.diff(moment(), 'hours');
 
-  const timeRel = moment(expectedTime).calendar();
+  if (timeDiff == 0) {
+    const minDiff = expectedTime.diff(moment(), 'minutes');
+
+    return `🛒⏳ #FilaAuchanPT\n\n${initString}\n\n${minDiff} minutos -> ${timeRel}`
+  }
+
+  if (timeDiff == 1) {
+    return `🛒⏳ #FilaAuchanPT\n\n${initString}\n\n${timeDiff} hora -> ${timeRel}`
+  }
 
   return `🛒⏳ #FilaAuchanPT\n\n${initString}\n\n${timeDiff} horas -> ${timeRel}`;
 }
@@ -29,7 +39,9 @@ const sendTweet = async (data) => {
   const tweetString = await makeTweet(data);
 
   try {
-    twit.post('statuses/update', { status: tweetString });
+    //twit.post('statuses/update', { status: tweetString });
+
+    console.log(tweetString);
 
   } catch (error) {
     console.error(error);
