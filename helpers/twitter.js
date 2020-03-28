@@ -39,9 +39,7 @@ const sendTweet = async (data) => {
   const tweetString = await makeTweet(data);
 
   try {
-    //twit.post('statuses/update', { status: tweetString });
-
-    console.log(tweetString);
+    twit.post('statuses/update', { status: tweetString });
 
   } catch (error) {
     console.error(error);
